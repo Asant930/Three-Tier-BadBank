@@ -31,17 +31,34 @@ function DepositForm(props){
 
 
   function handle(){
-    console.log(email,amount);
-    const user = ctx.users.find((user) => user.email == email);
-    if (!user) {
-      props.setStatus('fail!');
-      return;      
-    }
+    let user = null;
 
-    user.balance = user.balance + Number(amount);
-    console.log(user);
-    props.setStatus('');      
-    props.setShow(false);
+    const url = `/account/deposit/${email}/${amount}}`;
+    (async () => {
+      var res = await fetch(url);
+      var data = await res.json();
+      console.log(data)
+      user=data;
+
+      if(user==null){
+        props.setStatus('fail!')
+      }else{
+        props.setStatus('');
+        props.setShow(false);
+      }
+    })();
+
+    // console.log(email,amount);
+    // const user = ctx.users.find((user) => user.email == email);
+    // if (!user) {
+    //   props.setStatus('fail!');
+    //   return;      
+    // }
+
+    // user.balance = user.balance + Number(amount);
+    // console.log(user);
+    // props.setStatus('');      
+    // props.setShow(false);
   }
 
   return(<>

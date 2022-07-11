@@ -27,6 +27,15 @@ app.get('/account/all', function(req, res) {
         });
 });
 
+//update balance
+app.get('/account/deposit/:email/:balance', function(req, res) {
+    dal.update(req.params.email,req.params.balance).
+    then((user)=>{
+        console.log(user);
+        res.send(user);
+    })
+})
+
 // login user
 app.get('/account/login/:email/:password',function(req,res){
     dal.login(req.params.email,req.params.password).

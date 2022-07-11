@@ -32,6 +32,17 @@ function login(email,password){
     })
 }
 
+// update balance
+function update(email, amount) {
+    return new Promise((resolve, reject) => {
+        const customers = db.collection('users');
+        const doc = {email, balance: 0};
+        customers.insertOne(doc, {w:1}, function(err, result) {
+            err ? reject(err) : resolve(doc);
+        })
+    })
+}
+
 // all users
 function all(){
     return new Promise((resolve, reject) => {
@@ -44,4 +55,4 @@ function all(){
     })
 }
 
-module.exports = {create, all, login,};
+module.exports = {create, all, login, update};
