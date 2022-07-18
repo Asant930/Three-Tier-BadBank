@@ -27,9 +27,17 @@ app.get('/account/all', function(req, res) {
         });
 });
 
-//update balance
-app.get('/account/deposit/:email/:balance', function(req, res) {
-    dal.update(req.params.email,req.params.balance).
+//deposit
+app.get('/account/deposit/:email/:amount', function(req, res) {
+    dal.deposit(req.params.email,req.params.amount).
+    then((balance)=>{
+        console.log(balance);
+        res.send(balance);
+    })
+})
+//withdraw
+app.get('/account/withdraw/:email/:balance', function(req, res) {
+    dal.update(req.params.email,req.params.balance, "withdraw").
     then((user)=>{
         console.log(user);
         res.send(user);

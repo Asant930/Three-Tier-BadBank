@@ -28,25 +28,35 @@ function DepositMsg(props){
 function DepositForm(props){
   const [email, setEmail]   = React.useState('');
   const [amount, setAmount] = React.useState('');
+  const ctx = React.useContext(UserContext);
 
+  async function handle(){
+    let user = ctx.users[ctx.currentUser];
+    let email = user.email;
+    console.log(email,amount);
 
-  function handle(){
-    let user = null;
+    let response = await fetch(`/account/deposit/${email}/${amount}`);
+    let result = await response.json()
+    console.log('result ', result);
+    user.balance = user.balance + Number(amount);
+    props.setStatus('');
+    props.setShow(false);
+    // let user = null;
 
-    const url = `/account/deposit/${email}/${amount}}`;
-    (async () => {
-      var res = await fetch(url);
-      var data = await res.json();
-      console.log(data)
-      user=data;
+    // const url = `/account/deposit/${email}/${amount}`;
+    // (async () => {
+    //   var res = await fetch(url);
+    //   var data = await res.json();
+    //   console.log(data)
+    //   user=data;
 
-      if(user==null){
-        props.setStatus('fail!')
-      }else{
-        props.setStatus('');
-        props.setShow(false);
-      }
-    })();
+    //   if(user==null){
+    //     props.setStatus('fail!')
+    //   }else{
+    //     props.setStatus('');
+    //     props.setShow(false);
+    //   }
+    // })();
 
     // console.log(email,amount);
     // const user = ctx.users.find((user) => user.email == email);
